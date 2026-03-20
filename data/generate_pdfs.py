@@ -22,22 +22,42 @@ def main():
     data_dir = Path(__file__).parent
 
     # --- Sample Resume ---
+    # Candidate has: Java (intermediate), Git (intermediate),
+    # Linux Basics (beginner), Spring Boot (beginner), Docker (beginner)
+    # Missing entirely: Kubernetes, CI/CD Pipeline, AWS Cloud,
+    # Microservices, System Design
     resume_text = """
     DEVANSH KUMAR
-    Senior Software Engineer
+    Software Engineer | 3 Years Experience
 
-    SKILLS
-    - Java (5 years of enterprise development)
-    - Linux Basics (system administration and scripting)
-    - Git (version control, branching strategies)
+    TECHNICAL SKILLS
+    - Java: 3 years of backend development, built REST APIs and
+      data processing pipelines. Comfortable with OOP, collections,
+      and multithreading.
+    - Spring Boot: Built two REST APIs using Spring Boot for
+      internal tooling. Basic knowledge of Spring MVC and JPA.
+    - Git: Daily use for version control. Experienced with branching,
+      pull requests, rebasing, and resolving merge conflicts.
+    - Linux Basics: Comfortable with the command line, file
+      navigation, and basic shell scripting on Ubuntu.
+    - Docker: Familiar with writing Dockerfiles and running
+      containers locally for development.
 
     EXPERIENCE
-    - Built enterprise applications using Java and Spring framework
-    - Managed Linux servers for development and staging environments
-    - Collaborated using Git workflows (GitFlow, trunk-based development)
+    Software Engineer, Acme Corp (2022 - Present)
+    - Developed Java-based backend services processing 10K+
+      requests/day
+    - Maintained Spring Boot REST APIs for the analytics dashboard
+    - Used Docker for local development environments
+    - Collaborated via Git using feature branch workflows
+
+    Junior Developer, StartupXYZ (2021 - 2022)
+    - Built internal tools using Java and Spring Boot
+    - Wrote shell scripts for automating deployment tasks on Linux
+    - Managed code repositories using Git
 
     EDUCATION
-    - B.Tech in Computer Science, 2020
+    B.Tech in Computer Science, IIIT Delhi, 2021
     """
     create_pdf(
         str(data_dir / "sample_resume.pdf"),
@@ -46,28 +66,53 @@ def main():
     )
 
     # --- Sample Job Description ---
+    # Requires: Kubernetes (advanced), CI/CD Pipeline (advanced),
+    # Microservices (advanced), System Design (advanced),
+    # AWS Cloud (intermediate), Docker (advanced),
+    # Spring Boot (advanced), Java (advanced)
     jd_text = """
-    JOB TITLE: Cloud Platform Engineer
+    JOB TITLE: Senior Cloud Platform Engineer
+    COMPANY: TechScale Solutions
+    LOCATION: Bangalore, India (Hybrid)
+    EXPERIENCE: 5+ Years
+
+    ABOUT THE ROLE
+    We are looking for a Senior Cloud Platform Engineer to lead
+    the design and operation of our cloud-native platform.
+    You will architect scalable microservices, manage Kubernetes
+    clusters, and build world-class CI/CD pipelines.
 
     REQUIRED SKILLS
-    - Kubernetes (container orchestration, Helm charts)
-    - CI/CD Pipeline (Jenkins, GitHub Actions, ArgoCD)
-    - Microservices (design, deployment, monitoring)
-    - System Design (distributed systems, scalability)
-
-    RESPONSIBILITIES
-    - Design and manage Kubernetes clusters in production
-    - Build and maintain CI/CD Pipeline for microservice deployments
-    - Architect Microservices following domain-driven design
-    - Contribute to System Design reviews and architecture decisions
+    - Kubernetes: Expert-level container orchestration, Helm
+      charts, service mesh, and cluster management
+    - CI/CD Pipeline: Design and maintain production-grade
+      pipelines using Jenkins, GitHub Actions, and ArgoCD
+    - Microservices: Architect and deploy distributed
+      microservices following domain-driven design principles
+    - System Design: Lead architecture reviews for distributed
+      systems, handle scalability and reliability
+    - AWS Cloud: Deploy and manage services on AWS (EC2, ECS,
+      Lambda, S3, RDS, CloudFormation)
+    - Docker: Advanced containerization, multi-stage builds,
+      image optimization, and container security
+    - Spring Boot: Build production-grade Spring Boot services
+      with security, monitoring, and observability
+    - Java: Expert-level Java development with performance
+      tuning and concurrency patterns
 
     NICE TO HAVE
-    - AWS Cloud certification
-    - Docker experience
+    - Git: Advanced workflows (monorepo, trunk-based development)
+    - Linux Basics: System administration and performance tuning
+
+    RESPONSIBILITIES
+    - Design and manage production Kubernetes clusters
+    - Build and maintain CI/CD pipelines for 50+ microservices
+    - Conduct System Design reviews and architecture decisions
+    - Mentor junior engineers on cloud-native best practices
     """
     create_pdf(
         str(data_dir / "sample_job.pdf"),
-        "Job Description - Cloud Platform Engineer",
+        "Job Description - Senior Cloud Platform Engineer",
         jd_text,
     )
 

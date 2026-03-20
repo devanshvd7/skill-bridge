@@ -1,63 +1,17 @@
-# Skill-Bridge Career Navigator
+Candidate Name:  
+Scenario Chosen: Skill-Bridge Career Navigator  
+Estimated Time Spent: 4-6 hours  
+Quick Start: 
+● Prerequisites: Python 3.11+, Groq API Key
+● Run Commands: `python -m venv .venv` && `.\.venv\Scripts\activate` && `pip install -r requirements.txt` && `python data/generate_pdfs.py` && `uvicorn app.main:app --reload`
+● Test Commands: `pytest -v`
 
-AI-powered skill gap analysis and learning roadmap generator. Upload a resume and job description to get a personalized, DAG-sorted learning roadmap.
+AI Disclosure:  
+● Did you use an AI assistant (Copilot, ChatGPT, etc.)? Yes
+● How did you verify the suggestions? Automated test suites (pytest), manual API testing via Postman/cURL, and manual UI validation. Traced logical bugs (like LLM dictionary output causing JS errors) back to the source to manually verify fixes.
+● Give one example of a suggestion you rejected or changed: Copilot initially suggested a basic flat-list subsetting algorithm for skill gap generation. I rejected this and implemented a Directed Acyclic Graph (DAG) with NetworkX to handle complex transitive prerequisite chains natively instead.
 
-## Quick Start
-
-```bash
-# 1. Create and activate a virtual environment
-python -m venv .venv
-.venv\Scripts\activate        # Windows
-# source .venv/bin/activate   # macOS/Linux
-
-# 2. Install dependencies
-pip install -e ".[dev]"
-
-# 3. Set your Gemini API key
-#    Edit .env and replace 'your-api-key-here' with your real key
-
-# 4. Generate sample PDFs
-python data/generate_pdfs.py
-
-# 5. Start the server
-uvicorn app.main:app --reload
-```
-
-## Usage
-
-```bash
-curl -X POST http://localhost:8000/analyze-gap -F "resume=@data/sample_resume.pdf" -F "job_description=@data/sample_job.pdf"
-```
-
-## Running Tests
-
-```bash
-pytest -v
-```
-
-Tests mock all Gemini API calls — no API key required.
-
-## Project Structure
-
-```
-skill-bridge/
-├── app/
-│   ├── __init__.py
-│   ├── main.py            # FastAPI app & endpoint
-│   ├── graph.py           # NetworkX DAG management
-│   ├── gemini_client.py   # Gemini extraction + fallback
-│   └── roadmap.py         # Gap analysis, tiering, summary
-├── data/
-│   ├── curriculum.json    # 10-skill DAG + courses
-│   └── generate_pdfs.py   # Sample PDF generator
-├── tests/
-│   └── test_main.py       # Happy path + fallback tests
-├── AGENTS.md
-├── .env / .env.example
-├── pyproject.toml
-└── requirements.txt
-```
-
-## License
-
-MIT
+Tradeoffs & Prioritization:  
+● What did you cut to stay within the 4–6 hour limit? Persistent database storage (PostgreSQL/MongoDB) and user authentication (OAuth). Reverted to stateful session data and local memory structures for speed.
+● What would you build next if you had more time? Real-time live web scraping of job boards (LinkedIn, Indeed) rather than relying on PDF uploads, and expanding the single-graph Master List into domain-specific subgraphs.
+● Known limitations: The system currently relies on a statically defined internal synthetic curriculum (`curriculum.json`). The Regex local fallback extraction cannot accurately gauge proficiency levels, defaulting everything to "beginner" if the API drops.

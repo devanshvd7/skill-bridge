@@ -63,11 +63,11 @@ def test_happy_path(api):
 
     with (
         patch(
-            "app.gemini_client.extract_skills_gemini",
+            "app.gemini_client.extract_skills_groq",
             side_effect=mock_gemini_extract,
         ),
         patch(
-            "app.roadmap.generate_summary_gemini",
+            "app.roadmap.generate_summary_groq",
             return_value=mock_summary,
         ),
     ):
@@ -104,16 +104,16 @@ def test_happy_path(api):
 # ---------------------------------------------------------------------------
 
 def test_fallback_on_gemini_failure(api):
-    """When Gemini fails, the fallback parser and plain-text summary still return 200."""
+    """When Groq fails, the fallback parser and plain-text summary still return 200."""
 
     with (
         patch(
-            "app.gemini_client.extract_skills_gemini",
-            side_effect=Exception("Gemini API is down"),
+            "app.gemini_client.extract_skills_groq",
+            side_effect=Exception("Groq API is down"),
         ),
         patch(
-            "app.roadmap.generate_summary_gemini",
-            side_effect=Exception("Gemini API is down"),
+            "app.roadmap.generate_summary_groq",
+            side_effect=Exception("Groq API is down"),
         ),
     ):
         response = api.post(

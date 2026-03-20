@@ -32,37 +32,53 @@ document.addEventListener('DOMContentLoaded', () => {
         graphView.classList.add('hidden');
     });
 
-    // Drag and Drop Logic
-    setupDropZone('resume-zone', 'resume-file', 'resume-name');
-    setupDropZone('job-zone', 'job-file', 'job-name');
+    // Resume Setup
+    const resumeZone = document.getElementById('resume-zone');
+    const resumeInput = document.getElementById('resume-file');
+    const resumeName = document.getElementById('resume-name');
 
-    function setupDropZone(zoneId, inputId, nameId) {
-        const zone = document.getElementById(zoneId);
-        const input = document.getElementById(inputId);
-        const nameDisplay = document.getElementById(nameId);
+    resumeZone.addEventListener('click', () => resumeInput.click());
+    resumeInput.addEventListener('change', (e) => handleFileSelect(e.target.files, resumeZone, resumeName));
+    setupDragEvents(resumeZone, resumeInput, resumeName);
 
-        // Click to open file dialog
-        zone.addEventListener('click', () => input.click());
+    // Job Role Setup
+    const jobZone = document.getElementById('job-zone');
+    const jobInitial = document.getElementById('job-initial-state');
+    const jobExpanded = document.getElementById('job-expanded-state');
+    const jobFileSection = document.getElementById('job-file-section');
+    const jobInput = document.getElementById('job-file');
+    const jobName = document.getElementById('job-name');
 
-        // File selection
-        input.addEventListener('change', (e) => handleFileSelect(e.target.files, zone, nameDisplay));
+    jobInitial.addEventListener('click', () => {
+        jobInitial.classList.add('hidden');
+        jobExpanded.classList.remove('hidden');
+        jobZone.classList.add('job-zone-expanded');
+    });
 
-        // Drag events
+    jobFileSection.addEventListener('click', () => jobInput.click());
+    jobInput.addEventListener('change', (e) => handleFileSelect(e.target.files, jobFileSection, jobName));
+    setupDragEvents(jobFileSection, jobInput, jobName);
+
+    function setupDragEvents(zone, input, nameDisplay) {
         zone.addEventListener('dragover', (e) => {
             e.preventDefault();
             zone.classList.add('dragover');
+            e.stopPropagation();
         });
 
-        zone.addEventListener('dragleave', () => {
+        zone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
             zone.classList.remove('dragover');
+            e.stopPropagation();
         });
 
         zone.addEventListener('drop', (e) => {
             e.preventDefault();
             zone.classList.remove('dragover');
+            e.stopPropagation();
             
             if (e.dataTransfer.files.length > 0) {
-                input.files = e.dataTransfer.files; // Assign files to input
+                input.files = e.dataTransfer.files; 
                 handleFileSelect(e.dataTransfer.files, zone, nameDisplay);
             }
         });
@@ -88,7 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // JD Toggle Logic
     const toggleFileBtn = document.getElementById('toggle-file');
     const toggleTextBtn = document.getElementById('toggle-text');
-    const jobFileSection = document.getElementById('job-file-section');
     const jobTextSection = document.getElementById('job-text-section');
     let jdMode = 'file'; // 'file' or 'text'
 
@@ -185,13 +200,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Result Rendering
     function renderResults(data) {
-        // Render Tags
-        userTags.innerHTML = data.user_skills.length 
-            ? data.user_skills.map(skill => `<span class="tag">${skill}</span>`).join('')
+        // Render Tags — skills are now dictionaries {skill: level}
+        const userEntries = Object.entries(data.user_skills || {});
+        userTags.innerHTML = userEntries.length 
+            ? userEntries.map(([skill, level]) => `<span class="tag">${skill} <small>(${level})</small></span>`).join('')
             : '<span class="tag">No matching skills found</span>';
             
-        missingTags.innerHTML = data.missing_skills.length
-            ? data.missing_skills.map(skill => `<span class="tag">${skill}</span>`).join('')
+        const missingEntries = Object.entries(data.missing_skills || {});
+        missingTags.innerHTML = missingEntries.length
+            ? missingEntries.map(([skill, level]) => `<span class="tag">${skill} <small>(${level})</small></span>`).join('')
             : '<span class="tag">You have all required skills!</span>';
 
         // Render Summary

@@ -255,6 +255,23 @@ h1 {
     background: rgba(139, 92, 246, 0.05);
 }
 
+.inner-drop-zone {
+    cursor: pointer;
+    padding: 1.5rem;
+    border: 2px dashed var(--panel-border);
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+}
+
+.inner-drop-zone:hover, .inner-drop-zone.dragover {
+    border-color: var(--primary);
+    background: rgba(139, 92, 246, 0.05);
+}
+
+.job-zone-expanded {
+    cursor: default !important;
+}
+
 /* Buttons */
 .action-bar {
     display: flex;

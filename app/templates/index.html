@@ -35,7 +35,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
                             </div>
-                            <h3>Resume PDF</h3>
+                            <h3>Upload Resume</h3>
                             <p>Drag & drop or click to browse</p>
                             <input type="file" id="resume-file" name="resume" accept=".pdf,.docx,.txt,.md" required hidden>
                             <span class="file-name" id="resume-name"></span>
@@ -43,21 +43,26 @@
                     </div>
                     
                     <div class="drop-zone" id="job-zone">
-                        <div class="drop-content">
+                        <div class="drop-content" id="job-initial-state">
+                            <div class="icon-circle highlight">
+                                <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <h3>Enter Job Role</h3>
+                            <p>Click to provide job details</p>
+                        </div>
+
+                        <div class="drop-content hidden" id="job-expanded-state" style="width: 100%;">
                             <div class="job-toggle">
                                 <button type="button" id="toggle-file" class="toggle-btn active">Upload File</button>
                                 <button type="button" id="toggle-text" class="toggle-btn">Paste Text</button>
                             </div>
                             
-                            <div id="job-file-section">
-                                <div class="icon-circle highlight">
-                                    <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                    </svg>
-                                </div>
+                            <div id="job-file-section" class="inner-drop-zone">
                                 <h3>Job Description File</h3>
                                 <p>Drag & drop or click to browse</p>
-                                <input type="file" id="job-file" name="job_description" accept=".pdf,.docx,.txt,.md" required hidden>
+                                <input type="file" id="job-file" name="job_description" accept=".pdf,.docx,.txt,.md" hidden>
                                 <span class="file-name" id="job-name"></span>
                             </div>
 

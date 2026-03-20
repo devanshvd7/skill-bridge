@@ -32,3 +32,4 @@ htmlcov/
 
 # Environment secrets
 .env
+backend_script.md

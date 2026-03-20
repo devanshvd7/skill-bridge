@@ -3,7 +3,7 @@
 import json
 import os
 
-from google import genai
+from openai import OpenAI
 import networkx as nx
 
 LEVEL_WEIGHTS = {"beginner": 1, "intermediate": 2, "advanced": 3}
@@ -35,12 +35,22 @@ def build_tiered_roadmap(
     user_has = user_skills or {}
     all_needed = missing_skills.copy()
 
+    # Pre-compute max available course level per skill for smart defaults
+    max_course_level: dict[str, str] = {}
+    for c in courses:
+        skill_name = c["teaches"]
+        c_level = c.get("level", "beginner")
+        if skill_name not in max_course_level or \
+           LEVEL_WEIGHTS.get(c_level, 1) > LEVEL_WEIGHTS.get(max_course_level[skill_name], 1):
+            max_course_level[skill_name] = c_level
+
     # Add transitive prerequisites the user doesn't already have
     for skill, target_level in list(all_needed.items()):
         for ancestor in nx.ancestors(dag, skill):
             if ancestor not in user_has:
                 if ancestor not in all_needed:
-                    all_needed[ancestor] = "beginner"
+                    # Use max available course level so courses actually match
+                    all_needed[ancestor] = max_course_level.get(ancestor, "beginner")
 
     if not all_needed:
         return {"tiers": []}
@@ -63,11 +73,17 @@ def build_tiered_roadmap(
             user_level_str = user_has.get(skill)
             user_level = LEVEL_WEIGHTS.get(user_level_str, 0) if user_level_str else 0
             
+            # Use the max of target level and max available course level
+            # This prevents "Self-study recommended" when fallback sets
+            # target to "beginner" but only advanced courses exist
+            max_avail = LEVEL_WEIGHTS.get(max_course_level.get(skill, "beginner"), 1)
+            effective_target = max(target_level, max_avail)
+            
             matching = [
                 c for c in courses 
                 if c["teaches"] == skill 
                 and LEVEL_WEIGHTS.get(c.get("level", "beginner"), 1) > user_level
-                and LEVEL_WEIGHTS.get(c.get("level", "beginner"), 1) <= target_level
+                and LEVEL_WEIGHTS.get(c.get("level", "beginner"), 1) <= effective_target
             ]
             
             # Sort courses by level to ensure logical progression Order
@@ -85,9 +101,12 @@ def build_tiered_roadmap(
     return {"tiers": tiers}
 
 
-def generate_summary_gemini(roadmap: dict) -> str:
-    """Ask Gemini to write an encouraging summary of the learning roadmap."""
-    client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+def generate_summary_groq(roadmap: dict) -> str:
+    """Ask Groq (Llama) to write an encouraging summary of the learning roadmap."""
+    client = OpenAI(
+        api_key=os.getenv("GROQ_API_KEY"),
+        base_url="https://api.groq.com/openai/v1",
+    )
 
     prompt = (
         "You are an encouraging career coach. Based on this learning roadmap, "
@@ -96,11 +115,16 @@ def generate_summary_gemini(roadmap: dict) -> str:
         f"Roadmap:\n{json.dumps(roadmap, indent=2)}"
     )
 
-    response = client.models.generate_content(
-        model="gemini-2.0-flash",
-        contents=prompt,
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[
+            {"role": "system", "content": "You are an encouraging career coach."},
+            {"role": "user", "content": prompt},
+        ],
+        temperature=0.7,
+        max_tokens=300,
     )
-    return response.text.strip()
+    return response.choices[0].message.content.strip()
 
 
 def generate_summary_fallback(roadmap: dict) -> str:
@@ -131,8 +155,8 @@ def generate_summary_fallback(roadmap: dict) -> str:
 
 
 def generate_summary(roadmap: dict) -> str:
-    """Generate a roadmap summary: tries Gemini first, falls back to plain text."""
+    """Generate a roadmap summary: tries Groq first, falls back to plain text."""
     try:
-        return generate_summary_gemini(roadmap)
+        return generate_summary_groq(roadmap)
     except Exception:
         return generate_summary_fallback(roadmap)
