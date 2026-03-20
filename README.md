@@ -1,4 +1,4 @@
-Candidate Name:  
+Candidate Name: Devansh Vimlesh Desai
 Scenario Chosen: Skill-Bridge Career Navigator  
 Estimated Time Spent: 4-6 hours  
 Quick Start: 
