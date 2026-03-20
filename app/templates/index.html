@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill-Bridge Career Navigator</title>
+    <!-- Modern typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dagre/0.8.5/dagre.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cytoscape-dagre@2.5.0/cytoscape-dagre.min.js"></script>
+</head>
+<body>
+    <div class="background-effects">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+    </div>
+
+    <main class="container">
+        <header>
+            <h1>Skill-Bridge <span class="badge">AI</span></h1>
+            <p class="subtitle">Upload your resume and the target job description to instantly generate a personalized, mathematically-optimized learning roadmap.</p>
+        </header>
+
+        <section class="upload-section glass-panel">
+            <form id="analysis-form">
+                <div class="drop-zones">
+                    <div class="drop-zone" id="resume-zone">
+                        <div class="drop-content">
+                            <div class="icon-circle">
+                                <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                            </div>
+                            <h3>Resume PDF</h3>
+                            <p>Drag & drop or click to browse</p>
+                            <input type="file" id="resume-file" name="resume" accept=".pdf,.docx,.txt,.md" required hidden>
+                            <span class="file-name" id="resume-name"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="drop-zone" id="job-zone">
+                        <div class="drop-content">
+                            <div class="job-toggle">
+                                <button type="button" id="toggle-file" class="toggle-btn active">Upload File</button>
+                                <button type="button" id="toggle-text" class="toggle-btn">Paste Text</button>
+                            </div>
+                            
+                            <div id="job-file-section">
+                                <div class="icon-circle highlight">
+                                    <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <h3>Job Description File</h3>
+                                <p>Drag & drop or click to browse</p>
+                                <input type="file" id="job-file" name="job_description" accept=".pdf,.docx,.txt,.md" required hidden>
+                                <span class="file-name" id="job-name"></span>
+                            </div>
+
+                            <div id="job-text-section" class="hidden">
+                                <textarea id="jd-text" name="jd_text" placeholder="Paste the full job description text here..." rows="6" class="jd-textarea"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-bar">
+                    <button type="submit" id="submit-btn" class="primary-btn">
+                        <span class="btn-text">Generate Learning Roadmap</span>
+                        <div class="loader hidden"></div>
+                    </button>
+                    <p class="error-msg hidden" id="error-msg"></p>
+                </div>
+            </form>
+        </section>
+
+        <!-- Hidden initially -->
+        <section id="results-section" class="results-section hidden">
+            
+            <div class="skill-tags glass-panel" id="skills-overview">
+                <div class="tag-group">
+                    <h4>You have:</h4>
+                    <div class="tags" id="user-tags"></div>
+                </div>
+                <div class="tag-group">
+                    <h4>You need:</h4>
+                    <div class="tags missing" id="missing-tags"></div>
+                </div>
+            </div>
+
+            <div class="summary-card glass-panel highlight-border">
+                <div class="sparkle-icon">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <div id="summary-content" class="summary-text"></div>
+            </div>
+
+            <div class="roadmap-container">
+                <div class="view-toggles">
+                    <button type="button" id="btn-view-graph" class="toggle-btn active">Interactive Graph</button>
+                    <button type="button" id="btn-view-timeline" class="toggle-btn">Timeline View</button>
+                </div>
+                
+                <h2 class="section-title">Your Optimization Path</h2>
+                
+                <div id="graph-view" class="glass-panel" style="height: 500px; position: relative;">
+                    <div id="cy" style="width: 100%; height: 100%;"></div>
+                </div>
+
+                <div class="timeline hidden" id="timeline">
+                    <!-- Phases rendered here via JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

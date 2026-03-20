@@ -1,0 +1,596 @@
+/* Custom Premium Styling for Skill-Bridge */
+
+:root {
+    --bg-color: #0d1117;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    
+    --panel-bg: rgba(30, 41, 59, 0.4);
+    --panel-border: rgba(255, 255, 255, 0.08);
+    
+    --primary: #8b5cf6;
+    --primary-hover: #7c3aed;
+    --secondary: #3b82f6;
+    --accent: #10b981;
+    --danger: #ef4444;
+    
+    --glow-primary: rgba(139, 92, 246, 0.5);
+    --glow-secondary: rgba(59, 130, 246, 0.5);
+    
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --radius-lg: 16px;
+    --radius-md: 12px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Background Effects */
+.background-effects {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.4;
+}
+
+.orb-1 {
+    top: -100px;
+    left: -100px;
+    width: 500px;
+    height: 500px;
+    background: var(--glow-primary);
+}
+
+.orb-2 {
+    bottom: -100px;
+    right: -100px;
+    width: 600px;
+    height: 600px;
+    background: var(--glow-secondary);
+}
+
+/* Layout */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, var(--text-main), var(--text-muted));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.badge {
+    font-size: 0.9rem;
+    padding: 0.2rem 0.6rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 999px;
+    -webkit-text-fill-color: initial;
+    color: white;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    transform: translateY(-5px);
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Glass Panels */
+.glass-panel {
+    background: var(--panel-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.highlight-border {
+    position: relative;
+    overflow: hidden;
+}
+
+.highlight-border::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+}
+
+/* Upload Section */
+.drop-zones {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.drop-zone {
+    border: 2px dashed var(--panel-border);
+    border-radius: var(--radius-md);
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    background: rgba(15, 23, 42, 0.3);
+}
+
+.drop-zone:hover, .drop-zone.dragover {
+    border-color: var(--primary);
+    background: rgba(139, 92, 246, 0.05);
+    transform: translateY(-2px);
+}
+
+.drop-zone.has-file {
+    border-color: var(--accent);
+    border-style: solid;
+    background: rgba(16, 185, 129, 0.05);
+}
+
+.icon-circle {
+    width: 64px;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    color: var(--primary);
+}
+
+.icon-circle.highlight {
+    color: var(--secondary);
+}
+
+.icon {
+    width: 32px;
+    height: 32px;
+}
+
+.drop-zone h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.drop-zone p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.file-name {
+    display: block;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-weight: 500;
+    word-break: break-all;
+}
+
+.job-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.toggle-btn {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--panel-border);
+    padding: 0.5rem 1.5rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.toggle-btn.active {
+    background: rgba(139, 92, 246, 0.2);
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.jd-textarea {
+    width: 100%;
+    background: rgba(15, 23, 42, 0.3);
+    border: 2px dashed var(--panel-border);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 0.95rem;
+    resize: vertical;
+    outline: none;
+    transition: var(--transition);
+}
+
+.jd-textarea:focus {
+    border-color: var(--primary);
+    background: rgba(139, 92, 246, 0.05);
+}
+
+/* Buttons */
+.action-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.primary-btn {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border: none;
+    padding: 1rem 2.5rem;
+    border-radius: 999px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px var(--glow-primary);
+    position: relative;
+    overflow: hidden;
+    min-width: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.7);
+}
+
+.primary-btn:active {
+    transform: translateY(0);
+}
+
+.primary-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Loader */
+.loader {
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+    position: absolute;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.hidden {
+    display: none !important;
+}
+
+.error-msg {
+    color: var(--danger);
+    font-size: 0.9rem;
+    background: rgba(239, 68, 68, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Results Section */
+.results-section {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Skill Tags */
+.skill-tags {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.tag-group h4 {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tag {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--panel-border);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: var(--text-main);
+}
+
+.tags.missing .tag {
+    background: rgba(139, 92, 246, 0.1);
+    border-color: rgba(139, 92, 246, 0.3);
+    color: #c4b5fd;
+}
+
+/* Summary Box */
+.summary-card {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.8));
+    border-left: 4px solid var(--secondary);
+}
+
+.sparkle-icon {
+    width: 32px;
+    height: 32px;
+    color: var(--secondary);
+    flex-shrink: 0;
+}
+
+.summary-text {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #e2e8f0;
+}
+
+/* Roadmap Flowchart / Timeline */
+.roadmap-container {
+    margin-top: 1rem;
+}
+
+.view-toggles {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+#graph-view {
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.timeline {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* The vertical connecting line */
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 2rem;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--primary), var(--secondary));
+    border-radius: 2px;
+    opacity: 0.3;
+}
+
+.phase-block {
+    position: relative;
+    padding-left: 5rem;
+    animation: slideIn 0.5s ease-out forwards;
+    opacity: 0;
+}
+
+/* Dynamic staggering for animation */
+.phase-block:nth-child(1) { animation-delay: 0.1s; }
+.phase-block:nth-child(2) { animation-delay: 0.2s; }
+.phase-block:nth-child(3) { animation-delay: 0.3s; }
+.phase-block:nth-child(4) { animation-delay: 0.4s; }
+.phase-block:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.phase-marker {
+    position: absolute;
+    left: 1rem;
+    top: 0;
+    width: 2.2rem;
+    height: 2.2rem;
+    background: var(--bg-color);
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: var(--primary);
+    z-index: 2;
+    box-shadow: 0 0 15px var(--glow-primary);
+}
+
+.phase-content {
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    transition: var(--transition);
+}
+
+.phase-content:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateX(5px);
+    background: rgba(30, 41, 59, 0.7);
+}
+
+.phase-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--panel-border);
+    padding-bottom: 0.75rem;
+}
+
+.phase-title {
+    font-size: 1.2rem;
+    color: #f1f5f9;
+}
+
+.parallel-badge {
+    font-size: 0.75rem;
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--accent);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.course-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.course-card {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 8px;
+    flex: 1 1 200px;
+    min-width: 200px;
+    transition: var(--transition);
+}
+
+.course-link:hover .course-card {
+    background: rgba(139, 92, 246, 0.1);
+    border-color: rgba(139, 92, 246, 0.3);
+    transform: translateY(-2px);
+}
+
+.course-target {
+    font-size: 0.8rem;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+.course-name {
+    font-weight: 500;
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+}
+
+.course-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .drop-zones {
+        grid-template-columns: 1fr;
+    }
+    
+    .skill-tags {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .timeline::before {
+        left: 1rem;
+    }
+    
+    .phase-block {
+        padding-left: 3rem;
+    }
+    
+    .phase-marker {
+        left: 0;
+        width: 2rem;
+        height: 2rem;
+        font-size: 0.9rem;
+    }
+}

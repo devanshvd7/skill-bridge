@@ -1,0 +1,8 @@
+Devansh
+Software Engineer
+Skills: Java, Spring Boot, Git, Linux Basics
+
+Experience:
+- Developed backend REST APIs using Java and Spring Boot.
+- Managed versions using Git.
+- Deployed applications on Linux servers.
